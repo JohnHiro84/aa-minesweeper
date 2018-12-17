@@ -5,7 +5,7 @@ class Minesweeper
   def initialize
     @board = Board.new()
     @board.place_random_mines
-
+    @board.give_tiles_board_access
   end
   attr_accessor :board
 
@@ -31,7 +31,19 @@ class Minesweeper
 
     if board.[](positions).hidden_value == "m"
       puts "you hit a mine, game over"
+      board.[](positions).revealed = true
       game_over? == true
+
+    elsif board.[](positions).hidden_value == "^"
+
+
+      if board.[](positions).neighhbor_bomb_count == 0
+        board.[](positions).hidden_value = " "
+
+      elsif board.[](positions).neighhbor_bomb_count > 0
+        board.[](positions).hidden_value = board.[](positions).neighhbor_bomb_count.to_s
+      end
+      board.[](positions).revealed = true
     end
   end
 
@@ -62,8 +74,14 @@ end
 
 
 sweep = Minesweeper.new
+#puts sweep.board.[]([0,0]).hidden_value
+#sweep.board.give_tiles_board_access
+#puts sweep.board.[]([0,0]).tile_grid
+#sweep.board.print_board
+puts
 
 
+# sweep.board[0][0].neighhbor_bomb_count
 #
 # sweep.board.print_board
 #sweep.board.print_board
@@ -71,9 +89,10 @@ sweep = Minesweeper.new
 # sweep.guess
 #puts sweep.all_non_mine_tiles_revealed?
 
-
-
+#sweep.board.[]([0,0]).print_board_from_tile
+#puts sweep.board.[]([8,8]).neighhbor_bomb_count
+#
 until sweep.game_over? == true
-   sweep.board.print_board
+   sweep.board.print_hidden_board
    sweep.guess
  end

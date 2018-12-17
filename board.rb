@@ -5,10 +5,15 @@ class Board
   def initialize
 
     grid = Array.new(9){[]}
+    i = 0
     grid.each do |array|
+
+      j = 0
       9.times do
-        array << Tile.new
+        array << Tile.new([i, j])
+        j+=1
       end
+      i+=1
     end
     @grid = grid
   end
@@ -39,6 +44,14 @@ class Board
       end
       self.[]=(pos, "m")
       i+=1
+    end
+  end
+
+  def give_tiles_board_access
+    self.grid.each do |row|
+      row.each do |obj|
+        obj.tile_grid = self.grid
+      end
     end
   end
 
