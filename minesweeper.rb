@@ -9,7 +9,7 @@ class Minesweeper
     @hit_mine = false
     @game_over = false
   end
-  attr_accessor :board, :hit_mine
+  attr_accessor :board, :hit_mine, :game_over
 
 
   def guess
@@ -37,10 +37,9 @@ class Minesweeper
   def check_selected_position(positions)
 
         if board.[](positions).hidden_value == "m"
-          puts "you hit a mine, game over"
           board.[](positions).revealed = true
-          hit_mine = true
-          game_over = true
+          self.hit_mine = true
+          #self.game_over = true
 
         elsif board.[](positions).hidden_value == "^"
 
@@ -114,14 +113,12 @@ class Minesweeper
 
   def game_over?
     if all_non_mine_tiles_revealed? == true
+      system "clear" or system "cls"
       p "congratulations! you win!"
-      p "game over"
-      true
-    else
-      false
-    end
-    if hit_mine == true
-      true
+      self.game_over = true
+    elsif hit_mine == true
+      puts "you hit a mine, game over"
+      self.game_over = true
     end
 
   end
@@ -131,17 +128,19 @@ end
 
 
 sweep = Minesweeper.new
-#puts sweep.board.[]([0,0]).hidden_value
-#sweep.board.give_tiles_board_access
-#puts sweep.board.[]([0,0]).tile_grid
-#sweep.board.print_board
+
 puts
 
 
-until sweep.game_over? == true
-   sweep.board.print_board
-   puts
-   sweep.board.print_hidden_board
+until sweep.game_over == true
+  system "clear" or system "cls"
+  sweep.board.print_board
+  puts
+  sweep.board.print_hidden_board
    sweep.guess
+   print sweep.game_over
    sweep.game_over?
+   print sweep.game_over
+   sweep.board.print_board
+
  end
