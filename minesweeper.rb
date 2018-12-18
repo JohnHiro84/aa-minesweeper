@@ -29,14 +29,20 @@ class Minesweeper
 
     elsif user_choice == "f"
       puts "flag the mine"
+      if board.[](positions).flag == true
+        board.[](positions).flag = false
+      elsif board.[](positions).flag == false
+        board.[](positions).flag = true
+      end
     end
     #puts board.print_board
 
   end
 
   def check_selected_position(positions)
-
-        if board.[](positions).hidden_value == "m"
+        if board.[](positions).flag == true
+          puts "this tile is flagged"
+        elsif board.[](positions).hidden_value == "m"
           board.[](positions).revealed = true
           self.hit_mine = true
           #self.game_over = true
@@ -138,9 +144,9 @@ until sweep.game_over == true
   puts
   sweep.board.print_hidden_board
    sweep.guess
-   print sweep.game_over
+   #print sweep.game_over
    sweep.game_over?
-   print sweep.game_over
+   #print sweep.game_over
    sweep.board.print_board
 
  end
