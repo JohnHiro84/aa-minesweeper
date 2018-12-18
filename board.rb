@@ -33,7 +33,7 @@ class Board
   end
 
   def place_random_mines
-    mines = 3
+    mines = 10
     i=0
     while i < mines
       rand_row = rand(0...@grid.length)
@@ -75,7 +75,6 @@ class Board
       print i.to_s + " "
       row.each do |obj|
 
-
         if obj.revealed == true
           print obj.hidden_value.to_s + " "
         elsif obj.revealed == false && obj.flag == false
@@ -90,16 +89,3 @@ class Board
   end
 
 end
-#
-# board = Board.new()
-# board.print_board
-# board.place_random_mines
-# print "\n"
-# #board.print_board.hidden_value
-# puts
-# #print board.[]([0, 0]).hidden_value
-# #print board.[]=([0, 0], "m")
-# puts
-#
-# board.print_board
-# board.print_hidden_board

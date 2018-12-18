@@ -1,5 +1,5 @@
 require_relative 'board'
-
+require 'yaml'
 class Minesweeper
 
   def initialize
@@ -13,18 +13,20 @@ class Minesweeper
 
 
   def guess
-    puts "place your guess from the board, seperated by a comma (0, 3)"
-    puts "In the second prompt indicate r (to reveal the square)"
-    puts "or f (to flag the square)"
-
+    prompt_user
     user_guess = gets.chomp
+
+    if user_guess == 'save'
+      File.open("minesweeper_saved_game.yml", "w") { |file| file.write(self.to_yaml) }
+      exit!
+    end
+
     array_guess = user_guess.split(",")
     positions = array_guess.map { |e| e.strip.to_i  }
 
     user_choice = gets.chomp
 
     if user_choice == "r"
-      #puts board.[](positions).hidden_value
       check_selected_position(positions)
 
     elsif user_choice == "f"
@@ -35,7 +37,16 @@ class Minesweeper
         board.[](positions).flag = true
       end
     end
-    #puts board.print_board
+  end
+
+  def prompt_user
+    puts "1st prompt:"
+    puts "place your guess from the board, seperated by a comma (0, 3)"
+    puts "or type in 'save' to save your game for another day"
+    puts " "
+    puts "second prompt"
+    puts "In the second prompt indicate r (to reveal the square)"
+    puts "or f (to flag the square)"
 
   end
 
@@ -120,33 +131,17 @@ class Minesweeper
   def game_over?
     if all_non_mine_tiles_revealed? == true
       system "clear" or system "cls"
+      self.board.print_hidden_board
+      puts 
+      self.board.print_board
       p "congratulations! you win!"
       self.game_over = true
     elsif hit_mine == true
-      puts "you hit a mine, game over"
+      system "clear" or system "cls"
+      p "you hit a mine, game over"
+      self.board.print_board
       self.game_over = true
     end
-
   end
 
-
 end
-
-
-sweep = Minesweeper.new
-
-puts
-
-
-until sweep.game_over == true
-  system "clear" or system "cls"
-  sweep.board.print_board
-  puts
-  sweep.board.print_hidden_board
-   sweep.guess
-   #print sweep.game_over
-   sweep.game_over?
-   #print sweep.game_over
-   sweep.board.print_board
-
- end

@@ -11,13 +11,6 @@ class Tile
     @tile_grid = {}
     @tile_location = array
   end
-  # def hidden_value
-  #   @hidden_value
-  # end
-  #
-  # def hidden_value=(new_value)
-  #   @hidden_value = new_value
-  # end
 
   def neighhbor_bomb_count
     count = 0
@@ -88,9 +81,3 @@ class Tile
   end
 
 end
-
-#
-# tike = Tile.new
-# print tike.hidden_value
-# tike.hidden_value = "mop"
-# print tike.hidden_value
