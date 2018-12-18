@@ -33,7 +33,7 @@ class Board
   end
 
   def place_random_mines
-    mines = 10
+    mines = 2
     i=0
     while i < mines
       rand_row = rand(0...@grid.length)
