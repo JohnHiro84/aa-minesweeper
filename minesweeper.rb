@@ -132,14 +132,16 @@ class Minesweeper
     if all_non_mine_tiles_revealed? == true
       system "clear" or system "cls"
       self.board.print_hidden_board
-      puts 
+      puts
       self.board.print_board
-      p "congratulations! you win!"
+      print "\nCongratulations! you win!\n\n"
       self.game_over = true
     elsif hit_mine == true
       system "clear" or system "cls"
-      p "you hit a mine, game over"
+      self.board.print_hidden_board
+      print "\n\n"
       self.board.print_board
+      print "\nYou hit a mine, game over.\n\n"
       self.game_over = true
     end
   end

@@ -1,5 +1,7 @@
 require_relative 'tile'
 
+require 'colorized_string'
+
 class Board
 
   def initialize
@@ -57,11 +59,19 @@ class Board
 
   def print_board
     i = 0
-    print "  0 1 2 3 4 5 6 7 8\n"
+    #print "  0 1 2 3 4 5 6 7 8\n"
+    print easy_color("  0 1 2 3 4 5 6 7 8\n", :green)
     grid.each do |row|
-      print i.to_s + " "
+      #print i.to_s + " "
+      row_num_color = i.to_s + " "
+      print easy_color(row_num_color, :green)
       row.each do |obj|
-        print obj.hidden_value.to_s + " "
+        if obj.hidden_value == "m"
+          print easy_color(obj.hidden_value, :red)
+          print " "
+        else
+          print obj.hidden_value.to_s + " "
+        end
       end
       i+=1
       print "\n"
@@ -70,22 +80,41 @@ class Board
 
   def print_hidden_board
     i = 0
-    print "  0 1 2 3 4 5 6 7 8\n"
+    #print "  0 1 2 3 4 5 6 7 8\n"
+    print easy_color("  0 1 2 3 4 5 6 7 8\n", :green)
     grid.each do |row|
-      print i.to_s + " "
+      #print i.to_s + " "
+      row_num_color = i.to_s + " "
+      print easy_color(row_num_color, :green)
       row.each do |obj|
 
         if obj.revealed == true
-          print obj.hidden_value.to_s + " "
+          num_values = "12345678"
+          if num_values.include?(obj.hidden_value) == true
+            #print ColorizedString[obj.hidden_value].colorize(:yellow) + " "
+            print easy_color(obj.hidden_value, :yellow)
+            print " "
+          elsif obj.hidden_value == "m"
+            print easy_color(obj.hidden_value, :red)
+            print " "
+          else
+            print obj.hidden_value.to_s + " "
+          end
+
         elsif obj.revealed == false && obj.flag == false
           print "^" + " "
         elsif obj.revealed == false && obj.flag == true
-          print "f" + " "
+          print easy_color("f", :blue)
+          print " "
         end
       end
       i+=1
       print "\n"
     end
+  end
+
+  def easy_color(string, color)
+     ColorizedString[string].colorize(color)
   end
 
 end
