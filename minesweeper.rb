@@ -12,6 +12,49 @@ class Minesweeper
   attr_accessor :board, :hit_mine, :game_over
 
 
+  def valid_input(array)
+    if array == nil
+      array = ["error"]
+    end
+    permitted_nums = "012345678"
+    validated = true
+    if array.any? { |e| e.length != 1}
+      validated = false
+    end
+    if array.all? { |e| permitted_nums.include?(e)} == false
+      validated = false
+    end
+    if array.length != 2
+      validated = false
+    end
+    validated
+  end
+
+  def user_reveal_or_flag(array_guess)
+
+    if valid_input(array_guess) == true
+      positions = array_guess.map { |e| e.strip.to_i  }
+      user_choice = gets.chomp
+
+      if user_choice && user_choice == "r"
+        check_selected_position(positions)
+
+      elsif user_choice && user_choice == "f"
+        puts "flag the mine"
+        if board.[](positions).flag == true
+          board.[](positions).flag = false
+        elsif board.[](positions).flag == false
+          board.[](positions).flag = true
+        end
+      end
+
+    elsif valid_input(array_guess) == false
+      user_guess = 0
+      array_guess = []
+      user_choice = ""
+    end
+  end
+
   def guess
     prompt_user
     user_guess = gets.chomp
@@ -21,22 +64,16 @@ class Minesweeper
       exit!
     end
 
-    array_guess = user_guess.split(",")
-    positions = array_guess.map { |e| e.strip.to_i  }
+    if user_guess.include?(",") == true
+      array_guess = user_guess.split(",")
+      array_guess = array_guess.map { |e| e.strip }
 
-    user_choice = gets.chomp
-
-    if user_choice == "r"
-      check_selected_position(positions)
-
-    elsif user_choice == "f"
-      puts "flag the mine"
-      if board.[](positions).flag == true
-        board.[](positions).flag = false
-      elsif board.[](positions).flag == false
-        board.[](positions).flag = true
-      end
+    elsif user_guess.include?(" ") == true
+      array_guess = user_guess.split(" ")
     end
+
+    user_reveal_or_flag(array_guess)
+
   end
 
   def prompt_user
@@ -56,13 +93,11 @@ class Minesweeper
         elsif board.[](positions).hidden_value == "m"
           board.[](positions).revealed = true
           self.hit_mine = true
-          #self.game_over = true
 
         elsif board.[](positions).hidden_value == "^"
 
           if board.[](positions).neighhbor_bomb_count == 0
             board.[](positions).hidden_value = " "
-            #print surrounding_positions(positions)
             puts
             surrounding_positions(positions).each do |pos|
               check_selected_position(pos)

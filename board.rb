@@ -59,10 +59,8 @@ class Board
 
   def print_board
     i = 0
-    #print "  0 1 2 3 4 5 6 7 8\n"
     print easy_color("  0 1 2 3 4 5 6 7 8\n", :green)
     grid.each do |row|
-      #print i.to_s + " "
       row_num_color = i.to_s + " "
       print easy_color(row_num_color, :green)
       row.each do |obj|
@@ -80,10 +78,8 @@ class Board
 
   def print_hidden_board
     i = 0
-    #print "  0 1 2 3 4 5 6 7 8\n"
     print easy_color("  0 1 2 3 4 5 6 7 8\n", :green)
     grid.each do |row|
-      #print i.to_s + " "
       row_num_color = i.to_s + " "
       print easy_color(row_num_color, :green)
       row.each do |obj|
@@ -91,7 +87,6 @@ class Board
         if obj.revealed == true
           num_values = "12345678"
           if num_values.include?(obj.hidden_value) == true
-            #print ColorizedString[obj.hidden_value].colorize(:yellow) + " "
             print easy_color(obj.hidden_value, :yellow)
             print " "
           elsif obj.hidden_value == "m"
